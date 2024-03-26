@@ -1,0 +1,17 @@
+#!/sbin/openrc-run
+
+name=$RC_SVCNAME
+description="serenity service"
+supervisor="supervise-daemon"
+command="/usr/bin/serenity"
+command_args="-D /var/lib/serenity -C /etc/serenity run"
+
+depend() {
+	after net dns 
+}
+
+reload() {
+	ebegin "Reloading $RC_SVCNAME"
+	/bin/kill -HUP $MAINPID
+	eend $?
+}
